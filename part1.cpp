@@ -15,29 +15,35 @@ void testContainers(int size) {
     cout << "----------------------------------------\n";
 
     // 1. Добавляем элементы в конец
-    auto start = high_resolution_clock::now();
+    int sm = 0;
     for(int i = 0; i < size; i++) {
+        auto start = high_resolution_clock::now();
         lst.push_back(i);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        sm += duration.count();
     }
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout << "List - Добавление в конец: " << duration.count() << " мкс\n";
 
-    start = high_resolution_clock::now();
+    
+    cout << "List - Добавление в конец: " << (double)sm / size << " мкс\n";
+
+    sm = 0;
     for(int i = 0; i < size; i++) {
+        auto start = high_resolution_clock::now();
         deq.push_back(i);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        sm += duration.count();
     }
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
-    cout << "Deque - Добавление в конец: " << duration.count() << " мкс\n\n";
+    cout << "Deque - Добавление в конец: " << (double)sm / size << " мкс\n\n";
 
     // 2. Поиск элементов
     int searchValue = size / 2;
 
-    start = high_resolution_clock::now();
+    auto start = high_resolution_clock::now();
     auto it_list = find(lst.begin(), lst.end(), searchValue);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
     cout << "List - Поиск элемента: " << duration.count() << " мкс\n";
 
     start = high_resolution_clock::now();
@@ -47,26 +53,30 @@ void testContainers(int size) {
     cout << "Deque - Поиск элемента: " << duration.count() << " мкс\n\n";
 
     // 3. Удаление элементов из начала
-    start = high_resolution_clock::now();
+    sm = 0;
     for(int i = 0; i < size; i++) {
+        auto start = high_resolution_clock::now();
         lst.pop_front();
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        sm += duration.count();
     }
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
-    cout << "List - Удаление с начала: " << duration.count() << " мкс\n";
+    cout << "List - Удаление с начала: " << (double)sm / size << " мкс\n";
 
-    start = high_resolution_clock::now();
+    sm = 0;
     for(int i = 0; i < size; i++) {
+        auto start = high_resolution_clock::now();
         deq.pop_front();
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        sm += duration.count();
     }
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
-    cout << "Deque - Удаление с начала: " << duration.count() << " мкс\n";
+    cout << "Deque - Удаление с начала: " << (double)sm / size << " мкс\n";
     cout << "----------------------------------------\n\n";
 }
 
 int main() {
-    vector<int> sizes = {1000, 10000, 100000};
+    vector<int> sizes = {10000, 100000};
     
     for(int size : sizes) {
         testContainers(size);
